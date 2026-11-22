@@ -1,2 +1,143 @@
-import{mkdirSync as It,readFileSync as X,writeFileSync as j}from"node:fs";import{join as f}from"node:path";var Q=256,q=64,m=256,dt=1e6,z=65536,St=40,$=-2147483648,rt=0,H=1,V=2,ot=3,at=4,it=5,ut=6,_t=7,U=16,p=17,L=18,k=19,E=20,C=21,D=22,Pt=23,M=24,y=25,h=26,Ot=27,N=28,g=29,w=30,v=32,K=33,F=34,W=48,I=49,B=50,Y=51,lt=52,Tt=64,xt=65,ft=80,At=81,bt=82,Rt=83,mt=2,Ut=3,R=4,tt=5,et=6,pt=7,Lt=8,nt=9,kt=10,st=11,Et={[H]:1,[V]:4,[W]:2,[I]:2,[B]:2,[Y]:2},ct={[rt]:[0,0],[H]:[0,1],[V]:[0,1],[ot]:[1,0],[at]:[1,2],[it]:[2,2],[ut]:[2,3],[_t]:[3,3],[U]:[2,1],[p]:[2,1],[L]:[2,1],[k]:[2,1],[E]:[2,1],[C]:[2,1],[D]:[2,1],[Pt]:[1,1],[M]:[2,1],[y]:[2,1],[h]:[2,1],[Ot]:[1,1],[N]:[2,1],[g]:[2,1],[w]:[2,1],[v]:[2,1],[K]:[2,1],[F]:[2,1],[W]:[0,0],[I]:[1,0],[B]:[1,0],[Y]:[0,0],[lt]:[0,0],[Tt]:[1,1],[xt]:[2,0],[ft]:[1,0],[At]:[1,0],[bt]:[0,1],[Rt]:[1,0]};function Ct(u,b){let T=u.length,n=new Int32Array(Q),A=new Int32Array(q),x=new Int32Array(m),_=[],t=0,P=0,s=0,G=0,d=0,i=c=>({output:Uint8Array.from(_),exitCode:c}),J=c=>{let O=0;for(let l=0;l<c;l+=1)O|=u[s+1+l]<<8*l;return O},Z=c=>{let O=J(c),l=1<<8*c-1,S=1<<8*c;return O>=l?O-S:O};for(;;){if(G>=dt)return i(kt);if(s<0||s>=T)return i(nt);let c=u[s];if(!(c in ct))return i(tt);let O=Et[c]??0;if(s+1+O>T)return i(nt);G+=1;let[l,S]=ct[c];if(t<l)return i(mt);if(t-l+S>Q)return i(Ut);let a=s+1+O;switch(c){case rt:return{output:Uint8Array.from(_),exitCode:0};case H:{let e=u[s+1];n[t]=e>=128?e-256:e,t+=1,s=a;break}case V:{n[t]=u[s+1]|u[s+2]<<8|u[s+3]<<16|u[s+4]<<24,t+=1,s=a;break}case ot:{t-=1,s=a;break}case at:{n[t]=n[t-1],t+=1,s=a;break}case it:{let e=n[t-1];n[t-1]=n[t-2],n[t-2]=e,s=a;break}case ut:{n[t]=n[t-2],t+=1,s=a;break}case _t:{let e=n[t-3];n[t-3]=n[t-2],n[t-2]=n[t-1],n[t-1]=e,s=a;break}case U:case p:case L:case k:case E:case C:case D:case M:case y:case h:case N:case g:case w:case v:case K:case F:{let e=n[t-1],r=n[t-2],o=0;if(c===U)o=r+e|0;else if(c===p)o=r-e|0;else if(c===L)o=Math.imul(r,e);else if(c===k){if(e===0)return i(R);o=r===$&&e===-1?$:Math.trunc(r/e)|0}else if(c===E){if(e===0)return i(R);o=r%e|0}else if(c===C){if(e===0)return i(R);o=Math.floor((r>>>0)/(e>>>0))|0}else if(c===D){if(e===0)return i(R);o=(r>>>0)%(e>>>0)|0}else c===M?o=r&e:c===y?o=r|e:c===h?o=r^e:c===N?o=r<<(e&31):c===g?o=r>>(e&31):c===w?o=r>>>(e&31)|0:c===v?o=r===e?1:0:c===K?o=r<e?1:0:c===F&&(o=r>>>0<e>>>0?1:0);n[t-2]=o,t-=1,s=a;break}case Pt:{n[t-1]=-n[t-1]|0,s=a;break}case Ot:{n[t-1]=~n[t-1],s=a;break}case W:{s=a+Z(2);break}case I:case B:{let e=n[t-1];t-=1,s=(c===I?e===0:e!==0)?a+Z(2):a;break}case Y:{if(P>=q)return i(pt);A[P]=a,P+=1,s=J(2);break}case lt:{if(P===0)return i(Lt);P-=1,s=A[P];break}case Tt:{let e=n[t-1];if(e<0||e>=m)return i(et);n[t-1]=x[e],s=a;break}case xt:{let e=n[t-1],r=n[t-2];if(e<0||e>=m)return i(et);x[e]=r,t-=2,s=a;break}case ft:{let e=n[t-1],r=String(e);if(_.length+r.length>z)return i(st);for(let o=0;o<r.length;o+=1)_.push(r.charCodeAt(o));t-=1,s=a;break}case At:{if(_.length+1>z)return i(st);_.push(n[t-1]&255),t-=1,s=a;break}case bt:{let e=d<b.length?b[d]:-1;d+=1,n[t]=e,t+=1,s=a;break}case Rt:{let e=n[t-1]&255;return{output:Uint8Array.from(_),exitCode:e}}default:return i(tt)}}}function Dt(u){return"i"+String(u+1).padStart(3,"0")}function Mt(){let u=process.argv[2]??"/input",b=process.argv[3]??"/output";for(let T=0;T<St;T+=1){let n=Dt(T),A=f(u,n),x=f(b,n),_,t;try{_=X(f(A,"program.bin"))}catch{_=new Uint8Array(0)}try{t=X(f(A,"input.bin"))}catch{t=new Uint8Array(0)}let P=Ct(_,t);It(x,{recursive:!0}),j(f(x,"stdout.bin"),P.output),j(f(x,"exit.txt"),String(P.exitCode)+`
-`)}}Mt();
+// Tiny stack VM (ISA v1): answers 40 instances; /input/<id>/{program,input}.bin -> /output/<id>/{stdout.bin,exit.txt}.
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+
+const IN_DIR = '/input';
+const OUT_DIR = '/output';
+const MAX_STEPS = 1_000_000;
+const MAX_OUT = 65_536;
+
+// Run one program; returns { out, exit }. HALT/EXIT return, traps throw their code.
+function run(prog: Uint8Array, input: Uint8Array): { out: Uint8Array; exit: number } {
+  const st = new Int32Array(256); // data stack
+  const cs = new Int32Array(64); // return addresses
+  const mem = new Int32Array(256);
+  const out: number[] = [];
+  let pc = 0, ip = 0, steps = 0, sp = 0, cp = 0;
+  const done = (exit: number) => ({ out: new Uint8Array(out), exit });
+  const need = (n: number) => { if (sp < n) throw 2; };
+  const push = (v: number) => { if (sp >= 256) throw 3; st[sp++] = v | 0; };
+  const bin = () => { need(2); return [st[--sp], st[--sp]] as const; }; // [b, a], b is top
+  const op2 = (f: (a: number, b: number) => number) => { const [b, a] = bin(); push(f(a, b)); };
+  const imm16 = () => { if (pc + 3 > prog.length) throw 9; return prog[pc + 1] | (prog[pc + 2] << 8); };
+  const s16 = (v: number) => (v << 16) >> 16;
+  try {
+    for (;;) {
+      if (steps >= MAX_STEPS) throw 10; // step limit
+      if (pc < 0 || pc >= prog.length) throw 9;
+      const op = prog[pc];
+      steps++;
+      let next = pc + 1;
+      switch (op) {
+        case 0x00: return done(0);
+        case 0x01: // PUSH8, sign-extended
+          if (pc + 2 > prog.length) throw 9;
+          push((prog[pc + 1] << 24) >> 24);
+          next = pc + 2;
+          break;
+        case 0x02: // PUSH32, little-endian
+          if (pc + 5 > prog.length) throw 9;
+          push(prog[pc + 1] | (prog[pc + 2] << 8) | (prog[pc + 3] << 16) | (prog[pc + 4] << 24));
+          next = pc + 5;
+          break;
+        case 0x03: need(1); sp--; break;
+        case 0x04: need(1); push(st[sp - 1]); break;
+        case 0x05: { const [b, a] = bin(); push(b); push(a); break; } // SWAP
+        case 0x06: need(2); push(st[sp - 2]); break;
+        case 0x07: { // ROT (a b c -- b c a)
+          need(3);
+          const c = st[--sp], b = st[--sp], a = st[--sp];
+          push(b); push(c); push(a);
+          break;
+        }
+        case 0x10: op2((a, b) => a + b); break;
+        case 0x11: op2((a, b) => a - b); break;
+        case 0x12: op2((a, b) => Math.imul(a, b)); break;
+        case 0x13: op2((a, b) => { if (b === 0) throw 4; return (a / b) | 0; }); break; // DIV, trunc toward zero
+        case 0x14: op2((a, b) => { if (b === 0) throw 4; return (a % b) | 0; }); break; // MOD, sign of a
+        case 0x15: op2((a, b) => { if (b === 0) throw 4; return ((a >>> 0) / (b >>> 0)) | 0; }); break; // DIVU
+        case 0x16: op2((a, b) => { if (b === 0) throw 4; return ((a >>> 0) % (b >>> 0)) | 0; }); break; // MODU
+        case 0x17: need(1); push(-st[--sp]); break;
+        case 0x18: op2((a, b) => a & b); break;
+        case 0x19: op2((a, b) => a | b); break;
+        case 0x1a: op2((a, b) => a ^ b); break;
+        case 0x1b: need(1); push(~st[--sp]); break;
+        case 0x1c: op2((a, b) => a << (b & 31)); break;
+        case 0x1d: op2((a, b) => a >> (b & 31)); break; // SHR, arithmetic
+        case 0x1e: op2((a, b) => a >>> (b & 31)); break; // SHRU, logical
+        case 0x20: op2((a, b) => (a === b ? 1 : 0)); break;
+        case 0x21: op2((a, b) => (a < b ? 1 : 0)); break;
+        case 0x22: op2((a, b) => ((a >>> 0) < (b >>> 0) ? 1 : 0)); break;
+        case 0x30: next = pc + 3 + s16(imm16()); break; // JMP, relative to next instr
+        case 0x31: { // JZ
+          const off = s16(imm16());
+          need(1);
+          next = st[--sp] === 0 ? pc + 3 + off : pc + 3;
+          break;
+        }
+        case 0x32: { // JNZ
+          const off = s16(imm16());
+          need(1);
+          next = st[--sp] !== 0 ? pc + 3 + off : pc + 3;
+          break;
+        }
+        case 0x33: { // CALL, absolute unsigned target
+          const target = imm16();
+          if (cp >= 64) throw 7;
+          cs[cp++] = pc + 3;
+          next = target;
+          break;
+        }
+        case 0x34:
+          if (cp === 0) throw 8;
+          next = cs[--cp];
+          break;
+        case 0x40: { // LOAD
+          need(1);
+          const addr = st[--sp];
+          if (addr < 0 || addr > 255) throw 6;
+          push(mem[addr]);
+          break;
+        }
+        case 0x41: { // STORE (v addr --): addr is top
+          need(2);
+          const addr = st[--sp], v = st[--sp];
+          if (addr < 0 || addr > 255) throw 6;
+          mem[addr] = v;
+          break;
+        }
+        case 0x50: { // PRINT, decimal, no newline
+          need(1);
+          const s = String(st[--sp]);
+          if (out.length + s.length > MAX_OUT) throw 11;
+          for (let i = 0; i < s.length; i++) out.push(s.charCodeAt(i));
+          break;
+        }
+        case 0x51:
+          need(1);
+          if (out.length + 1 > MAX_OUT) throw 11;
+          out.push(st[--sp] & 255);
+          break;
+        case 0x52: push(ip < input.length ? input[ip++] : -1); break;
+        case 0x53: need(1); return done(st[--sp] & 255);
+        default: throw 5;
+      }
+      pc = next;
+    }
+  } catch (e) {
+    return done(typeof e === 'number' ? e : 9);
+  }
+}
+
+// Missing files behave as empty (empty program traps 9, IN reads -1).
+for (let k = 1; k <= 40; k++) {
+  const id = 'i' + String(k).padStart(3, '0');
+  let prog = new Uint8Array(0);
+  let input = new Uint8Array(0);
+  try { prog = readFileSync(IN_DIR + '/' + id + '/program.bin'); } catch {}
+  try { input = readFileSync(IN_DIR + '/' + id + '/input.bin'); } catch {}
+  const { out, exit } = run(prog, input);
+  const dir = OUT_DIR + '/' + id;
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(dir + '/stdout.bin', out);
+  writeFileSync(dir + '/exit.txt', exit + '\n');
+}
